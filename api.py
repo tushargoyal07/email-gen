@@ -1,17 +1,19 @@
-from openai import OpenAI
+import anthropic
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-api = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api)
+api = os.getenv("ANTHROPIC_API_KEY").strip()
+client = anthropic.Anthropic(api_key=api)
 
 email_type = input("What type of email do you want to write? ")
-response = client.chat.completions.create(
+response = client.messages.create(
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=100,
     messages=[
         {
-            "role": "system",
+            "role": "assistant",
             "content": "you are a expert in writing an email, whatever kind of email it is, you can write it in a professional way and make it look good and original giving it a little human touch.",
         },
         {
@@ -19,7 +21,6 @@ response = client.chat.completions.create(
             "content": f"I need to write an email of {email_type}",
         }
     ],
-    model="gpt-3.5-turbo",
 )
 
-print(response.choices[0].message)
+print(response.content)
