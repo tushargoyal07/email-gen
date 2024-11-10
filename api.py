@@ -8,6 +8,8 @@ api = os.getenv("ANTHROPIC_API_KEY").strip()
 client = anthropic.Anthropic(api_key=api)
 
 email_type = input("What type of email do you want to write? ")
+Name = input("What is your name?")
+Topic = input("What is the topic of the email?")
 response = client.messages.create(
     model="claude-3-5-sonnet-20241022",
     max_tokens=100,
@@ -18,7 +20,7 @@ response = client.messages.create(
         },
         {
             "role": "user",
-            "content": f"I need to write an email of {email_type}",
+            "content": f"I need to write an email of {email_type} type, using the name {Name} and the topic {Topic}.",
         }
     ],
 )
